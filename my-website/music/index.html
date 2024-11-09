@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Special Page</title>
+<style>
+    /* Reset and basic styling */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f5f5f5;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Button styling with bounce animation */
+    #clickButton, #nextButton {
+        padding: 15px 30px;
+        font-size: 1.2em;
+        color: #fff;
+        background-color: #ff4d4d;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        animation: bounce 2s infinite;
+        transition: background-color 0.3s;
+    }
+    #clickButton:hover, #nextButton:hover {
+        background-color: #e60000;
+    }
+
+    /* Content container styling */
+    #content, #musicPage {
+        text-align: center;
+        display: none;
+        animation: fadeIn 2s ease-in-out forwards;
+    }
+    #imageContainer img, #musicImageContainer img {
+        max-width: 300px;
+        height: auto;
+        margin-top: 20px;
+        border-radius: 10px;
+        opacity: 0;
+        animation: fadeInImage 2s ease-in-out 0.5s forwards;
+    }
+
+    /* Typing effect styling */
+    #typingText, #musicText {
+        margin-top: 20px;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 3px solid;
+        animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+    
+    /* Song options styling */
+    .song-options {
+        display: none; /* Hidden initially */
+        margin-top: 20px;
+    }
+    .song-option {
+        padding: 10px 20px;
+        margin-top: 15px;
+        font-size: 1em;
+        color: #fff;
+        background-color: #3a7bd5;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-block;
+        margin: 5px;
+        transition: background-color 0.3s;
+    }
+    .song-option:hover {
+        background-color: #2954a3;
+    }
+    .audio-controls {
+        margin-top: 10px;
+    }
+
+    /* Animations */
+    @keyframes typing {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+    @keyframes blink-caret {
+        from, to { border-color: transparent; }
+        50% { border-color: #333; }
+    }
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+        60% { transform: translateY(-5px); }
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeInImage {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+
+<!-- First Page Button -->
+<button id="clickButton">Click With Thumb 👍🏻</button>
+
+<!-- Second Page Content -->
+<div id="content">
+    <div id="imageContainer">
+        <img src="https://i.pinimg.com/736x/06/54/7a/06547a402611c9e9157175f37f329823.jpg" alt="Red Rose">
+    </div>
+    <div id="typingTextContainer">
+        <p id="typingText"></p>
+    </div>
+    <button id="nextButton" style="display: none;">Click With Index ☝🏻</button> <!-- Hidden initially -->
+</div>
+
+<!-- Music Page Content -->
+<div id="musicPage">
+    <div id="musicImageContainer">
+        <img src="https://via.placeholder.com/300x300.png?text=AirPods" alt="AirPods">
+    </div>
+    <div id="musicTextContainer">
+        <p id="musicText"></p>
+    </div>
+    <div class="song-options">
+        <div>
+            <button class="song-option">Dandelions</button>
+            <div class="audio-controls">
+                <audio id="audioDandelions" controls>
+                    <source src="music/Dandelions.mp3" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        <div>
+            <button class="song-option">Summertime Sadness</button>
+            <div class="audio-controls">
+                <audio id="audioSummertimeSadness" controls>
+                    <source src="music/SummertimeSadness.mp3" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        <div>
+            <button class="song-option">Pookal Pokum</button>
+            <div class="audio-controls">
+                <audio id="audioPookalPokum" controls>
+                    <source src="music/PookalPokum.mp3" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Show second page content and hide initial button
+    document.getElementById("clickButton").addEventListener("click", function() {
+        document.getElementById("clickButton").style.display = "none";
+        document.getElementById("content").style.display = "block";
+
+        // Typing effect for the first message
+        const text = "Theesko e puvvu navvesay oka navvu\nNi navvante naku chala istam but only when I am the reason for your smile";
+        let index = 0;
+        const typingTextElement = document.getElementById("typingText");
+
+        function typeText() {
+            if (index < text.length) {
+                typingTextElement.innerHTML += text[index] === "\n" ? "<br>" : text[index];
+                index++;
+                setTimeout(typeText, 100);
+            } else {
+                // Show the "Click With Index ☝🏻" button after typing effect finishes
+                document.getElementById("nextButton").style.display = "inline-block";
+            }
+        }
+        typeText();
+    });
+
+    // Show music page and hide second page content
+    document.getElementById("nextButton").addEventListener("click", function() {
+        document.getElementById("content").style.display = "none";
+        document.getElementById("musicPage").style.display = "block";
+
+        // Typing effect for music page message
+        const musicText = "This mini AirPod has songs dedicated to you, played on my piano—the ones you loved the most.";
+        let musicIndex = 0;
+        const musicTextElement = document.getElementById("musicText");
+
+        function typeMusicText() {
+            if (musicIndex < musicText.length) {
+                musicTextElement.innerHTML += musicText[musicIndex];
+                musicIndex++;
+                setTimeout(typeMusicText, 100);
+            } else {
+                // Display song options after the typing effect completes
+                document.querySelector(".song-options").style.display = "block";
+            }
+        }
+        typeMusicText();
+    });
+</script>
+
+</body>
+</html>
